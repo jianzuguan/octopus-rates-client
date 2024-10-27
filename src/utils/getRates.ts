@@ -22,14 +22,15 @@ export async function getRates(): Promise<OctopusAgileResponse> {
 
 function getTokenFromStorage() {
   return Effect.try({
-    try:() => {
-       const token = localStorage.getItem('token')
-        if (!token) {
-          throw new Error('No token found in local storage')
-        }
-        return token
-      },
-  catch: (e)=> new Error(`something went wrong ${e}`) })
+    try: () => {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        throw new Error('No token found in local storage')
+      }
+      return token
+    },
+    catch: (e) => new Error(`something went wrong ${e}`),
+  })
 }
 
 function getAgileRates(token: string) {

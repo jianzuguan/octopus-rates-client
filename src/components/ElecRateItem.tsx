@@ -26,7 +26,7 @@ export function ElecRateItem({ item, now }: Props) {
       ].join(' ')}
     >
       <p>{getDisplayTime(item.valid_from)}</p>
-      <p >{toFixedPrice(item.value_inc_vat)}</p>
+      <p>{toFixedPrice(item.value_inc_vat)}</p>
     </div>
   )
 }

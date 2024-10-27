@@ -9,6 +9,6 @@ export function priceToColourClass(prefix: string, price: number) {
 
   if (price < 25)
     return `${prefix}-price-alright dark:${prefix}-price-alright-dark`
-  
+
   return `${prefix}-price-expensive dark:${prefix}-price-expensive-dark`
 }

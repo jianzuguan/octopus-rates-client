@@ -21,16 +21,16 @@ export function RatesPage() {
     }
   }, [])
 
-  useEffect(() =>{
+  useEffect(() => {
     const updateRates = async () => {
       const updatedRates = await getRates()
       setRates(updatedRates.results)
     }
 
     updateRates()
-  },[])
+  }, [])
 
-  useEffect(() =>{
+  useEffect(() => {
     const dateSet = new Set(rates.map((rate) => rate.valid_from.split('T')[0]))
     const dateArr = Array.from(dateSet).sort((a, b) => (a < b ? -1 : 1))
     setDateArr(dateArr)

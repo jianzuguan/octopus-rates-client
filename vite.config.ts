@@ -7,8 +7,7 @@ export default defineConfig({
   base: '/octopus-rates-client/',
   resolve: {
     alias: {
-      "@": "/src",
+      '@': '/src',
     },
   },
-
 })
