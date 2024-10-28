@@ -1,14 +1,16 @@
 'use client'
 
 import { ElecRate } from '@/types/ElecRate'
-import { getRates } from '@/utils/getRates'
 import { useEffect, useState } from 'react'
 import { DateContainer } from './DateContainer'
 import { ElecRateItem } from './ElecRateItem'
 
-export function RatesPage() {
+type Props = {
+  rates: ElecRate[]
+}
+
+export function RatesPage({ rates }: Props) {
   const [now, setNow] = useState(new Date())
-  const [rates, setRates] = useState<ElecRate[]>([])
   const [dateArr, setDateArr] = useState<string[]>([])
 
   useEffect(() => {
@@ -19,15 +21,6 @@ export function RatesPage() {
     return () => {
       clearInterval(timer)
     }
-  }, [])
-
-  useEffect(() => {
-    const updateRates = async () => {
-      const updatedRates = await getRates()
-      setRates(updatedRates.results)
-    }
-
-    updateRates()
   }, [])
 
   useEffect(() => {
