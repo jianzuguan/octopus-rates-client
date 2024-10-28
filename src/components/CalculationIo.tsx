@@ -8,7 +8,7 @@ type Props = {
   usageKwh?: number
 }
 
-export function CalculationIO(props: Props) {
+export function CalculationIo(props: Props) {
   const { rates } = props
   const [halfHours, setHalfHours] = useState(props.halfHours ?? 4)
   const [usageKwh, setUsageKwh] = useState(props.usageKwh ?? 1)
@@ -61,7 +61,7 @@ export function CalculationIO(props: Props) {
       {cheapestPeriod && (
         <div>
           <p>Cheapest period</p>
-          <p>From: {cheapestPeriod.from.replace('T', ' ').replace('Z','')}</p>
+          <p className='font-bold'>From: {cheapestPeriod.from.replace('T', ' ').replace('Z','')}</p>
           <p>To: {cheapestPeriod.to.replace('T', ' ').replace('Z','')}</p>
           <p>Sum: {cheapestPeriod.sum}</p>
           {cheapestPeriod.average && <p>Average: {cheapestPeriod.average}</p>}

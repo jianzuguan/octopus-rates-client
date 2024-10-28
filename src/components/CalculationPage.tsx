@@ -1,8 +1,6 @@
-'use client'
-
 import { ElecRate } from '@/types/ElecRate'
 import { useEffect, useState } from 'react'
-import { CalculationIO } from './CalculationIO'
+import { CalculationIo } from './CalculationIo'
 
 type Props = {
   rates: ElecRate[]
@@ -29,8 +27,8 @@ export function CalculationPage({ rates }: Props) {
 
   return (
     <>
-      <CalculationIO rates={availableRates} halfHours={8} usageKwh={0.75} />
-      <CalculationIO rates={availableRates} halfHours={5} usageKwh={0.8}/>
+      <CalculationIo rates={availableRates} halfHours={8} usageKwh={0.75} />
+      <CalculationIo rates={availableRates} halfHours={5} usageKwh={0.8}/>
     </>
   )
 }
