@@ -1,5 +1,6 @@
 import { CalculationPage } from '@/components/CalculationPage'
 import { RatesPage } from '@/components/RatesPage'
+import { TokenPage } from '@/components/TokenPage'
 import { ElecRate } from '@/types/ElecRate'
 import { getRates } from '@/utils/getRates'
 import { useEffect, useState } from 'react'
@@ -21,6 +22,7 @@ function App() {
     <main className="flex min-h-screen flex-col items-center justify-between p-4">
       <CalculationPage rates={rates} />
       <RatesPage rates={rates} />
+      <TokenPage />
     </main>
   )
 }
