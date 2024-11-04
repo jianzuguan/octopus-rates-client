@@ -19,7 +19,13 @@ function App() {
   }, [])
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-4">
+    <main
+      className={[
+        'flex min-h-screen flex-col items-center justify-between',
+        'lg:flex-row lg:items-start',
+        'p-4'
+      ].join(' ')}
+    >
       <CalculationPage rates={rates} />
       <RatesPage rates={rates} />
       <TokenPage />

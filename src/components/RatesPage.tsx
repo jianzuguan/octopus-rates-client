@@ -30,7 +30,7 @@ export function RatesPage({ rates }: Props) {
   }, [rates])
 
   return (
-    <>
+    <div>
       {dateArr.map((date) => (
         <DateContainer key={date} date={date}>
           {rates
@@ -41,6 +41,6 @@ export function RatesPage({ rates }: Props) {
             ))}
         </DateContainer>
       ))}
-    </>
+    </div>
   )
 }

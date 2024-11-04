@@ -26,9 +26,9 @@ export function CalculationPage({ rates }: Props) {
   }, [now, rates])
 
   return (
-    <>
+    <div>
       <CalculationIo rates={availableRates} halfHours={8} usageKwh={0.75} />
       <CalculationIo rates={availableRates} halfHours={5} usageKwh={0.8}/>
-    </>
+    </div>
   )
 }
