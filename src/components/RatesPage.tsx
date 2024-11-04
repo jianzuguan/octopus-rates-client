@@ -25,9 +25,11 @@ export function RatesPage({ rates }: Props) {
 
   useEffect(() => {
     const dateSet = new Set(rates.map((rate) => rate.valid_from.split('T')[0]))
-    const dateArr = Array.from(dateSet).sort((a, b) => (a < b ? -1 : 1))
+    const dateArr = Array.from(dateSet)
+      .sort((a, b) => (a < b ? -1 : 1))
+      .filter((date) => date >= now.toISOString().split('T')[0])
     setDateArr(dateArr)
-  }, [rates])
+  }, [rates, now])
 
   return (
     <div>
