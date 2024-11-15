@@ -1,3 +1,4 @@
+import example from '@/assets/example.json'
 import { ElecRate } from '@/types/ElecRate'
 import { useEffect, useState } from 'react'
 import { CalculationIo } from './CalculationIo'
@@ -20,15 +21,25 @@ export function CalculationPage({ rates }: Props) {
     }
   }, [])
 
-  useEffect(()=> {
-    const laterRates = rates.filter(rate => now.toISOString() < rate.valid_from)
+  useEffect(() => {
+    const laterRates = rates.filter(
+      (rate) => now.toISOString() < rate.valid_from
+    )
     setAvailableRates(laterRates)
   }, [now, rates])
 
   return (
     <div>
-      <CalculationIo rates={availableRates} halfHours={8} usageKwh={0.75} />
-      <CalculationIo rates={availableRates} halfHours={5} usageKwh={0.8}/>
+      {example.map((config, index) => {
+        return (
+          <CalculationIo
+            key={index}
+            rates={availableRates}
+            halfHours={config.halfHours}
+            usageKwh={config.usageKwh}
+          />
+        )
+      })}
     </div>
   )
 }

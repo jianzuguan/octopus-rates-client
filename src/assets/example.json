@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Example 1",
+    "halfHours": 8,
+    "usageKwh": 0.75
+  },
+  {
+    "title": "Example 2",
+    "halfHours": 5,
+    "usageKwh": 0.8
+  },
+  {
+    "title": "Cotton 40",
+    "halfHours": 4,
+    "usageKwh": 0
+  }
+]
