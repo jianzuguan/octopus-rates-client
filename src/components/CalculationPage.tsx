@@ -34,6 +34,7 @@ export function CalculationPage({ rates }: Props) {
         return (
           <CalculationIo
             key={index}
+            title={config.title}
             rates={availableRates}
             halfHours={config.halfHours}
             usageKwh={config.usageKwh}

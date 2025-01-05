@@ -3,13 +3,14 @@ import { calculateUsagePrice, Result } from '@/utils/calculateUsagePrice'
 import { useEffect, useState } from 'react'
 
 type Props = {
+  title?: string
   rates: ElecRate[]
   halfHours?: number
   usageKwh?: number
 }
 
 export function CalculationIo(props: Props) {
-  const { rates } = props
+  const { title, rates } = props
   const [halfHours, setHalfHours] = useState(props.halfHours ?? 4)
   const [usageKwh, setUsageKwh] = useState(props.usageKwh ?? 1)
   const [cheapestPeriod, setsCheapestPeriod] = useState<Result>()
@@ -28,47 +29,95 @@ export function CalculationIo(props: Props) {
   }, [rates, halfHours, usageKwh])
 
   return (
-    <div className="m-4">
-      <div className="flex flex-row justify-between items-center px-4 space-x-8">
-        <label>Half hours: {halfHours}</label>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setHalfHours(dec(halfHours))}
-        >
-          -
-        </button>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setHalfHours(inc(halfHours))}
-        >
-          +
-        </button>
-      </div>
-      <label>
-        Usage kWh:
-        <input
-          className={[
-            'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg',
-            'focus:ring-blue-500 focus:border-blue-500',
-            'p-2.5',
-            'dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
-          ].join(' ')}
-          type="number"
-          value={usageKwh}
-          onChange={(e) => setUsageKwh(Number(e.target.value))}
-        />
-      </label>
+    <div
+      className={[
+        'm-4 p-6',
+        'border rounded-lg',
+        'bg-white dark:bg-gray-800',
+        'border-gray-200 dark:border-gray-700 ',
+        'shadow',
+        'grid grid-cols-4',
+      ].join(' ')}
+    >
+      {title && (
+        <h2 className={['text-2xl font-bold', 'col-span-4'].join(' ')}>
+          {title}
+        </h2>
+      )}
+      <label className="col-span-2">Half hours: {halfHours}</label>
+      <button
+        className={[
+          'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
+          'col-span-1',
+        ].join(' ')}
+        onClick={() => setHalfHours(dec(halfHours))}
+      >
+        -
+      </button>
+      <button
+        className={[
+          'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
+          'col-span-1',
+        ].join(' ')}
+        onClick={() => setHalfHours(inc(halfHours))}
+      >
+        +
+      </button>
+      <label className="col-span-2">Usage kWh:</label>
+      <input
+        className={[
+          'col-span-2',
+          'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg',
+          'focus:ring-blue-500 focus:border-blue-500',
+          'p-2.5',
+          'dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white',
+          'dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        ].join(' ')}
+        type="number"
+        value={usageKwh}
+        onChange={(e) => setUsageKwh(Number(e.target.value))}
+      />
       {cheapestPeriod && (
-        <div>
-          <p>Cheapest period</p>
-          <p className='font-bold'>From: {cheapestPeriod.from.replace('T', ' ').replace('Z','')}</p>
-          <p>To: {cheapestPeriod.to.replace('T', ' ').replace('Z','')}</p>
-          <p>Sum: {cheapestPeriod.sum}</p>
-          {cheapestPeriod.average && <p>Average: {cheapestPeriod.average}</p>}
-          {cheapestPeriod.usageCost && (
-            <p>Usage cost: {cheapestPeriod.usageCost}</p>
+        <>
+          <hr className="col-span-4 my-2" />
+
+          <p className={['font-bold', 'col-start-1', 'col-span-2'].join(' ')}>
+            From:
+          </p>
+          <p className={['font-bold', 'col-span-2'].join(' ')}>
+            {cheapestPeriod.from.replace('T', ' ').replace('Z', '')}
+          </p>
+
+          <p className={['col-start-1', 'col-span-2'].join(' ')}>To:</p>
+          <p className={['col-span-2'].join(' ')}>
+            {cheapestPeriod.to.replace('T', ' ').replace('Z', '')}
+          </p>
+
+          <p className={['col-start-1', 'col-span-2'].join(' ')}>Sum:</p>
+          <p className={['col-span-2'].join(' ')}>{cheapestPeriod.sum}</p>
+
+          {cheapestPeriod.average && (
+            <>
+              <p className={['col-start-1', 'col-span-2'].join(' ')}>
+                Average:
+              </p>
+              <p className={['col-span-2'].join(' ')}>
+                {cheapestPeriod.average}
+              </p>
+            </>
           )}
-        </div>
+
+          {usageKwh !== 0 && (
+            <>
+              <p className={['col-start-1', 'col-span-2'].join(' ')}>
+                Usage cost:
+              </p>
+              <p className={['col-span-2'].join(' ')}>
+                {cheapestPeriod.usageCost}
+              </p>
+            </>
+          )}
+        </>
       )}
     </div>
   )
