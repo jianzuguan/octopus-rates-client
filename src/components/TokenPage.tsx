@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 export function TokenPage() {
-  const [token, setToken] = useState<string>()
+  const [token, setToken] = useState<string>('')
 
   useEffect(() => {
     setToken(localStorage.getItem('token') || '')
