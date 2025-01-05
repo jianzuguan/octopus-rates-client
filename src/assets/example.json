@@ -1,16 +1,16 @@
 [
   {
-    "title": "Example 1",
+    "title": "Dish Eco 50",
     "halfHours": 8,
     "usageKwh": 0.75
   },
   {
-    "title": "Example 2",
+    "title": "Dish Auto 45-65",
     "halfHours": 5,
     "usageKwh": 0.8
   },
   {
-    "title": "Cotton 40",
+    "title": "Cloth Cotton 40",
     "halfHours": 4,
     "usageKwh": 0
   }
