@@ -36,7 +36,8 @@ function getTokenFromStorage() {
 function getAgileRates(token: string) {
   return Effect.tryPromise(() =>
     fetch(
-      'https://api.octopus.energy/v1/products/AGILE-FLEX-22-11-25/electricity-tariffs/E-1R-AGILE-FLEX-22-11-25-H/standard-unit-rates/',
+      // Endpoint can be found at https://api.octopus.energy/v1/products/AGILE-24-10-01/
+      'https://api.octopus.energy/v1/products/AGILE-24-10-01/electricity-tariffs/E-1R-AGILE-24-10-01-B/standard-unit-rates/',
       {
         headers: {
           Authorization: 'Basic ' + btoa(`${token}:`),
