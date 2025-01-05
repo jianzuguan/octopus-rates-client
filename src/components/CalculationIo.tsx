@@ -31,20 +31,21 @@ export function CalculationIo(props: Props) {
   return (
     <div
       className={[
-        'm-4 p-6',
+        'm-4 p-4',
         'border rounded-lg',
         'bg-white dark:bg-gray-800',
         'border-gray-200 dark:border-gray-700 ',
         'shadow',
-        'grid grid-cols-4',
+        'grid grid-cols-5',
+        'items-center',
       ].join(' ')}
     >
       {title && (
-        <h2 className={['text-2xl font-bold', 'col-span-4'].join(' ')}>
+        <h2 className={['text-2xl font-bold', 'col-span-5'].join(' ')}>
           {title}
         </h2>
-      )}
-      <label className="col-span-2">Half hours: {halfHours}</label>
+      )}  
+      <label className="col-span-2">Half hours:</label> <p className='place-self-center'>{halfHours}</p>
       <button
         className={[
           'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
@@ -66,7 +67,7 @@ export function CalculationIo(props: Props) {
       <label className="col-span-2">Usage kWh:</label>
       <input
         className={[
-          'col-span-2',
+          'col-span-3',
           'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg',
           'focus:ring-blue-500 focus:border-blue-500',
           'p-2.5',
@@ -79,29 +80,29 @@ export function CalculationIo(props: Props) {
       />
       {cheapestPeriod && (
         <>
-          <hr className="col-span-4 my-2" />
+          <hr className="col-span-5 my-2" />
 
           <p className={['font-bold', 'col-start-1', 'col-span-2'].join(' ')}>
             From:
           </p>
-          <p className={['font-bold', 'col-span-2'].join(' ')}>
+          <p className={['font-bold', 'col-span-3'].join(' ')}>
             {cheapestPeriod.from.replace('T', ' ').replace('Z', '')}
           </p>
 
           <p className={['col-start-1', 'col-span-2'].join(' ')}>To:</p>
-          <p className={['col-span-2'].join(' ')}>
+          <p className={['col-span-3'].join(' ')}>
             {cheapestPeriod.to.replace('T', ' ').replace('Z', '')}
           </p>
 
           <p className={['col-start-1', 'col-span-2'].join(' ')}>Sum:</p>
-          <p className={['col-span-2'].join(' ')}>{cheapestPeriod.sum}</p>
+          <p className={['col-span-3'].join(' ')}>{cheapestPeriod.sum}</p>
 
           {cheapestPeriod.average && (
             <>
               <p className={['col-start-1', 'col-span-2'].join(' ')}>
                 Average:
               </p>
-              <p className={['col-span-2'].join(' ')}>
+              <p className={['col-span-3'].join(' ')}>
                 {cheapestPeriod.average}
               </p>
             </>
@@ -112,7 +113,7 @@ export function CalculationIo(props: Props) {
               <p className={['col-start-1', 'col-span-2'].join(' ')}>
                 Usage cost:
               </p>
-              <p className={['col-span-2'].join(' ')}>
+              <p className={['col-span-3'].join(' ')}>
                 {cheapestPeriod.usageCost}
               </p>
             </>
