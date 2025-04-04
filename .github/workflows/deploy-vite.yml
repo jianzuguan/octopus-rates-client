@@ -34,13 +34,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'yarn'
-      - name: Enable Corepack
-        run: corepack enable
-      - name: Use Yarn 4.8.1
-        run: corepack prepare yarn@4.8.1 --activate
-      - name: Verify Yarn Version
-        run: yarn --version
       - name: Install dependencies
         run: yarn install
       - name: Build
