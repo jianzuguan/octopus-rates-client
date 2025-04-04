@@ -37,10 +37,12 @@ jobs:
           cache: 'yarn'
       - name: Enable Corepack
         run: corepack enable
-      - name: Install Yarn 4.8.1
+      - name: Use Yarn 4.8.1
         run: corepack prepare yarn@4.8.1 --activate
+      - name: Verify Yarn Version
+        run: yarn --version
       - name: Install dependencies
-        run: yarn
+        run: yarn install
       - name: Build
         run: yarn build
       - name: Setup Pages
