@@ -1,5 +1,7 @@
 import { ElecRate } from '@/types/ElecRate'
 import { calculateUsagePrice, Result } from '@/utils/calculateUsagePrice'
+import { getLocalDate } from '@/utils/getLocalDate'
+import { getLocalTime } from '@/utils/getLocalTime'
 import { useEffect, useState } from 'react'
 
 type Props = {
@@ -85,13 +87,19 @@ export function CalculationIo(props: Props) {
           <p className={['font-bold', 'col-start-1', 'col-span-2'].join(' ')}>
             From:
           </p>
-          <p className={['font-bold', 'col-span-3'].join(' ')}>
-            {cheapestPeriod.from.replace('T', ' ').replace('Z', '')}
+          <p className={['font-bold', 'col-span-2'].join(' ')}>
+            {getLocalDate(cheapestPeriod.from)}
+          </p>
+          <p className={['font-bold', 'col-span-1'].join(' ')}>
+            {getLocalTime(cheapestPeriod.from)}
           </p>
 
           <p className={['col-start-1', 'col-span-2'].join(' ')}>To:</p>
-          <p className={['col-span-3'].join(' ')}>
-            {cheapestPeriod.to.replace('T', ' ').replace('Z', '')}
+          <p className={['col-span-2'].join(' ')}>
+            {getLocalDate(cheapestPeriod.to)}
+          </p>
+          <p className={['col-span-1'].join(' ')}>
+            {getLocalTime(cheapestPeriod.to)}
           </p>
 
           <p className={['col-start-1', 'col-span-2'].join(' ')}>Sum:</p>

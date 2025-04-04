@@ -1,7 +1,7 @@
 'use client'
 
 import { ElecRate } from '@/types/ElecRate'
-import { getDisplayTime } from '@/utils/getDisplayTime'
+import { getLocalTime } from '@/utils/getLocalTime'
 import { priceToColourClass } from '@/utils/priceToColourClass'
 import { toFixedPrice } from '@/utils/toFixedPrice'
 
@@ -25,7 +25,7 @@ export function ElecRateItem({ item, now }: Props) {
         isNow ? 'ring-8' : '',
       ].join(' ')}
     >
-      <p>{getDisplayTime(item.valid_from)}</p>
+      <p>{getLocalTime(item.valid_from)}</p>
       <p>{toFixedPrice(item.value_inc_vat)}</p>
     </div>
   )
