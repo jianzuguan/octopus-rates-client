@@ -53,7 +53,7 @@ function App() {
           'lg:hidden',
           'fixed bottom-0 left-0 z-50 w-full h-16',
           'flex justify-around border-b',
-          'bg-white',
+          'bg-white dark:bg-black',
         ].join(' ')}
       >
         <button
