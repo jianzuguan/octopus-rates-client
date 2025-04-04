@@ -23,24 +23,27 @@ function App() {
   }, [])
 
   return (
-    <main
-      className={[
-        'flex min-h-screen flex-col items-center justify-between',
-        'lg:flex-row lg:items-start',
-        'p-4',
-      ].join(' ')}
-    >
+    <main>
       {/* Render Pages */}
       <div className="w-full">
         {/* Show only the active tab on mobile */}
-        <div className="lg:hidden pb-16">
+        <div
+          className={[
+            'lg:hidden pb-16',
+            'flex flex-col items-center justify-between',
+          ].join(' ')}
+        >
           {activeTab === 'calculation' && <CalculationPage rates={rates} />}
           {activeTab === 'rates' && <RatesPage rates={rates} />}
           {activeTab === 'token' && <TokenPage />}
         </div>
 
         {/* Show all pages on large screens */}
-        <div className="hidden lg:flex lg:flex-row justify-between">
+        <div
+          className={['hidden', 'lg:flex flex-row justify-between', 'p-4'].join(
+            ' '
+          )}
+        >
           <CalculationPage rates={rates} />
           <RatesPage rates={rates} />
           <TokenPage />
