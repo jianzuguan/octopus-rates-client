@@ -4,6 +4,7 @@ import { TokenPage } from '@/components/TokenPage'
 import { ElecRate } from '@/types/ElecRate'
 import { getRates } from '@/utils/getRates'
 import { useEffect, useState } from 'react'
+import { useSwipeable } from 'react-swipeable'
 import './App.css'
 
 function App() {
@@ -22,12 +23,28 @@ function App() {
     updateRates()
   }, [])
 
+  const handleSwipe = (direction: 'left' | 'right') => {
+    const tabs = ['calculation', 'rates', 'token'] as const
+    const currentIndex = tabs.indexOf(activeTab)
+    if (direction === 'left' && currentIndex < tabs.length - 1) {
+      setActiveTab(tabs[currentIndex + 1])
+    } else if (direction === 'right' && currentIndex > 0) {
+      setActiveTab(tabs[currentIndex - 1])
+    }
+  }
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => handleSwipe('left'),
+    onSwipedRight: () => handleSwipe('right'),
+  })
+
   return (
     <main>
       {/* Render Pages */}
       <div className="w-full">
         {/* Show only the active tab on mobile */}
         <div
+          {...swipeHandlers}
           className={[
             'lg:hidden pb-16',
             'flex flex-col items-center justify-between',
