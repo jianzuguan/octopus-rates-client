@@ -15,7 +15,12 @@ export function TokenPage() {
   }, [token])
 
   return (
-    <div>
+    <div
+      className={[
+        'h-[calc(100vh-4rem)]',
+        'flex flex-col justify-center items-center',
+      ].join(' ')}
+    >
       <p>
         Get your API token from{' '}
         <a
