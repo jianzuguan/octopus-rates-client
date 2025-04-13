@@ -32,7 +32,7 @@ export function RatesPage({ rates }: Props) {
   }, [rates, now])
 
   return (
-    <div>
+    <div className={['flex', 'flex-col', 'gap-4'].join(' ')}>
       {dateArr.map((date) => (
         <DateContainer key={date} date={date}>
           {rates

@@ -9,7 +9,7 @@ import './App.css'
 
 function App() {
   const [activeTab, setActiveTab] = useState<'calculation' | 'rates' | 'token'>(
-    'calculation'
+    'rates'
   )
 
   const [rates, setRates] = useState<ElecRate[]>([])
@@ -24,7 +24,7 @@ function App() {
   }, [])
 
   const handleSwipe = (direction: 'left' | 'right') => {
-    const tabs = ['calculation', 'rates', 'token'] as const
+    const tabs = ['rates', 'calculation', 'token'] as const
     const currentIndex = tabs.indexOf(activeTab)
     if (direction === 'left' && currentIndex < tabs.length - 1) {
       setActiveTab(tabs[currentIndex + 1])
@@ -76,17 +76,18 @@ function App() {
           'bg-white dark:bg-black',
         ].join(' ')}
       >
-        <button
-          className={`p-2 ${activeTab === 'calculation' ? 'font-bold border-t-2 border-blue-500' : ''}`}
-          onClick={() => setActiveTab('calculation')}
-        >
-          Calculation
-        </button>
+        {' '}
         <button
           className={`p-2 ${activeTab === 'rates' ? 'font-bold border-t-2 border-blue-500' : ''}`}
           onClick={() => setActiveTab('rates')}
         >
           Rates
+        </button>
+        <button
+          className={`p-2 ${activeTab === 'calculation' ? 'font-bold border-t-2 border-blue-500' : ''}`}
+          onClick={() => setActiveTab('calculation')}
+        >
+          Calculation
         </button>
         <button
           className={`p-2 ${activeTab === 'token' ? 'font-bold border-t-2 border-blue-500' : ''}`}
