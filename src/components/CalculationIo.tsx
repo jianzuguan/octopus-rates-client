@@ -102,13 +102,10 @@ export function CalculationIo(props: Props) {
             {getLocalTime(cheapestPeriod.to)}
           </p>
 
-          <p className={['col-start-1', 'col-span-2'].join(' ')}>Sum:</p>
-          <p className={['col-span-3'].join(' ')}>{cheapestPeriod.sum}</p>
-
           {cheapestPeriod.average && (
             <>
               <p className={['col-start-1', 'col-span-2'].join(' ')}>
-                Average:
+                Average rate:
               </p>
               <p className={['col-span-3'].join(' ')}>
                 {cheapestPeriod.average}
