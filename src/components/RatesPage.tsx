@@ -1,6 +1,7 @@
 'use client'
 
 import { ElecRate } from '@/types/ElecRate'
+import { getLocalDate } from '@/utils/getLocalDate'
 import { useEffect, useState } from 'react'
 import { DateContainer } from './DateContainer'
 import { ElecRateItem } from './ElecRateItem'
@@ -36,7 +37,7 @@ export function RatesPage({ rates }: Props) {
       {dateArr.map((date) => (
         <DateContainer key={date} date={date}>
           {rates
-            .filter((rate) => rate.valid_from.split('T')[0] === date)
+            .filter((rate) => getLocalDate(rate.valid_from) === date)
             .sort((a, b) => (a.valid_from < b.valid_from ? -1 : 1))
             .map((rate) => (
               <ElecRateItem key={rate.valid_from} item={rate} now={now} />
