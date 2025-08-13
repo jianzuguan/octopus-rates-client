@@ -1,5 +1,5 @@
 import {
-  ClientIdSecret,
+  HomeConnectCredentials,
   HomeConnectOAuthTokenResponse,
 } from '@/types/HomeConnect'
 import axios from 'axios'
@@ -44,8 +44,9 @@ function navigateToHomeConnectAuth(clientId: string): string {
 
 export async function getHomeConnectOAuthToken() {
   const token = pipe(
-    getClientIdAndSecretFromStorage(),
-    Effect.flatMap((params) => requestAccessToken(params))
+    retrieveClientCredentialsFromStorage(),
+    Effect.flatMap((params) => requestAccessToken(params)),
+    Effect.tap((res) => console.log(res))
   )
 
   const exit = await Effect.runPromiseExit(token)
@@ -53,31 +54,42 @@ export async function getHomeConnectOAuthToken() {
   return exit
 }
 
-export function getClientIdAndSecretFromStorage(): Effect.Effect<
-  ClientIdSecret,
+export function retrieveClientCredentialsFromStorage(): Effect.Effect<
+  HomeConnectCredentials,
   null
 > {
   const clientId = localStorage.getItem('clientId')
   const clientSecret = localStorage.getItem('clientSecret')
+  const authCode = localStorage.getItem('homeConnectAuthCode')
 
-  if (clientId !== null && clientSecret !== null) {
+  if (clientId !== null && clientSecret !== null && authCode !== null) {
     return Effect.succeed({
       clientId,
       clientSecret,
+      authCode,
     })
   } else {
     return Effect.fail(null)
   }
 }
 
-function requestAccessToken(params: ClientIdSecret) {
+function requestAccessToken(params: HomeConnectCredentials) {
   return Effect.tryPromise(() =>
     axios
       .post<HomeConnectOAuthTokenResponse>(
         'https://simulator.home-connect.com/security/oauth/token',
         {
-          ...params,
-          redirect_uri: 'http://localhost:5173/octopus-rates-client/',
+          grant_type: 'authorization_code',
+          code: params.authCode,
+          // redirect_uri: 'http://localhost:5173/octopus-rates-client/',
+          client_id: params.clientId,
+          client_secret: params.clientSecret
+        },
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+          }
         }
       )
       .then((response) => response.data)

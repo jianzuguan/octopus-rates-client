@@ -1,5 +1,5 @@
 import { ElecRate } from '@/types/ElecRate'
-import { getClientIdAndNavigate } from '@/utils/homeConnect'
+import { getHomeConnectOAuthToken } from '@/utils/homeConnect'
 import { useEffect, useState } from 'react'
 import { CalculationIo } from './CalculationIo'
 import { DateTimePicker } from './DateTimePicker'
@@ -70,7 +70,7 @@ export function DishWasherPage({ rates }: Props) {
       </div>
 
       <button
-        onClick={getClientIdAndNavigate}
+        onClick={getHomeConnectOAuthToken}
         disabled={isConnecting}
         className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
       >

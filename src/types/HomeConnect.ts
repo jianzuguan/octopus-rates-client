@@ -5,9 +5,10 @@ export interface HomeConnectOAuthTokenRequest {
   code: string
 }
 
-export interface ClientIdSecret {
+export interface HomeConnectCredentials {
   clientId: string
   clientSecret: string
+  authCode: string
 }
 
 export interface HomeConnectOAuthTokenResponse {
