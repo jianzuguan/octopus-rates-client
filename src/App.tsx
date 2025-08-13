@@ -16,6 +16,21 @@ function App() {
   const [rates, setRates] = useState<ElecRate[]>([])
 
   useEffect(() => {
+    // Check for Home Connect authorization code in URL parameters
+    const urlParams = new URLSearchParams(window.location.search)
+    const authCode = urlParams.get('code')
+    
+    if (authCode) {
+      // Store the authorization code in localStorage
+      localStorage.setItem('homeConnectAuthCode', authCode)
+      console.log('Home Connect authorization code stored:', authCode)
+      
+      // Clean up the URL by removing the code parameter
+      const url = new URL(window.location.href)
+      url.searchParams.delete('code')
+      window.history.replaceState({}, '', url.toString())
+    }
+
     const updateRates = async () => {
       const updatedRates = await getRates()
       setRates(updatedRates.results)

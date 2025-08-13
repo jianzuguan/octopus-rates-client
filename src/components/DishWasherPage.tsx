@@ -79,7 +79,3 @@ export function DishWasherPage({ rates }: Props) {
     </div>
   )
 }
-
-function logToken() {
-  console.log('OAuth Token:')
-}
