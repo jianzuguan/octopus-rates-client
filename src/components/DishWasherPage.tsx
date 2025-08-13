@@ -1,6 +1,5 @@
 import { ElecRate } from '@/types/ElecRate'
-import { HomeConnectOAuthTokenRequest } from '@/types/HomeConnect'
-import { getClientIdAndNavigate, getHomeConnectOAuthToken } from '@/utils/homeConnect'
+import { getClientIdAndNavigate } from '@/utils/homeConnect'
 import { useEffect, useState } from 'react'
 import { CalculationIo } from './CalculationIo'
 import { DateTimePicker } from './DateTimePicker'
@@ -15,36 +14,6 @@ export function DishWasherPage({ rates }: Props) {
   const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date())
   const [isConnecting, setIsConnecting] = useState(false)
   const [connectionStatus, setConnectionStatus] = useState<string>('')
-
-  const handleHomeConnectAuth = async () => {
-    setIsConnecting(true)
-    setConnectionStatus('')
-
-    try {
-      // Example OAuth request - you'll need to replace with actual values
-      const oauthRequest: HomeConnectOAuthTokenRequest = {
-        client_id: 'your_client_id',
-        redirect_uri: 'your_redirect_uri',
-        grant_type: 'authorization_code',
-        code: 'authorization_code_from_oauth_flow',
-      }
-
-      const exit = await getHomeConnectOAuthToken(oauthRequest)
-
-      if (exit._tag === 'Success') {
-        setConnectionStatus('Successfully connected to Home Connect!')
-        console.log('OAuth Token:', exit.value)
-      } else {
-        setConnectionStatus('Failed to connect to Home Connect')
-        console.error('OAuth Error:', exit.cause)
-      }
-    } catch (error) {
-      setConnectionStatus('Error connecting to Home Connect')
-      console.error('Connection error:', error)
-    } finally {
-      setIsConnecting(false)
-    }
-  }
 
   useEffect(() => {
     const timer = setInterval(() => {
