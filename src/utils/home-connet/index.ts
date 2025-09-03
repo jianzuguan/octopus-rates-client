@@ -1,3 +1,4 @@
+import { config } from '@/config/env'
 import {
   GetHomeConnectApplianceResponse,
   GetHomeConnectStatusDoorResponse,
@@ -42,11 +43,11 @@ export function getClientIdAndNavigate() {
 function navigateToHomeConnectAuth(clientId: string): string {
   const searchParams = [
     `client_id=${clientId}`,
-    `redirect_uri=${encodeURI('http://localhost:5173/octopus-rates-client/')}`,
+    `redirect_uri=${encodeURI(config.redirectUri)}`,
     `response_type=code`,
     `scope=${DISHWASHER_SCOPES}`,
   ]
-  const urlString = `https://simulator.home-connect.com/security/oauth/authorize?${searchParams.join('&')}`
+  const urlString = `${config.homeConnect.oauthUrl}/authorize?${searchParams.join('&')}`
 
   console.log(`Navigating to Home Connect Auth: ${urlString}`)
 
@@ -233,11 +234,11 @@ function requestAccessToken(params: HomeConnectCredentials) {
   return Effect.tryPromise(() =>
     axios
       .post<HomeConnectOAuthTokenResponse>(
-        'https://simulator.home-connect.com/security/oauth/token',
+        `${config.homeConnect.oauthUrl}/token`,
         {
           grant_type: 'authorization_code',
           code: params.authCode,
-          redirect_uri: 'http://localhost:5173/octopus-rates-client/',
+          redirect_uri: config.redirectUri,
           client_id: params.clientId,
           client_secret: params.clientSecret,
         },
@@ -268,7 +269,7 @@ function getAllAppliances(): Effect.Effect<
   return Effect.tryPromise(() =>
     axios
       .get<GetHomeConnectApplianceResponse>(
-        'https://simulator.home-connect.com/api/homeappliances',
+        `${config.homeConnect.apiUrl}/homeappliances`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -290,7 +291,7 @@ function getDoorStatus(haId: string) {
   return Effect.tryPromise(() =>
     axios
       .get<GetHomeConnectStatusDoorResponse>(
-        `https://simulator.home-connect.com/api/homeappliances/${haId}/status/BSH.Common.Status.DoorState`,
+        `${config.homeConnect.apiUrl}/homeappliances/${haId}/status/BSH.Common.Status.DoorState`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

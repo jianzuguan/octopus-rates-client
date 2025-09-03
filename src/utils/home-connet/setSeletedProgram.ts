@@ -1,10 +1,11 @@
+import { config } from '@/config/env'
 import axios from 'axios'
 import { Effect } from 'effect'
 
 export function setSelectedProgram(haId: string) {
   return Effect.tryPromise(() =>
     axios.put(
-      `https://simulator.home-connect.com/api/homeappliances/${haId}/programs/selected`,
+      `${config.homeConnect.apiUrl}/homeappliances/${haId}/programs/selected`,
       {
         data: {
           key: 'Dishcare.Dishwasher.Program.Auto3',

@@ -1,3 +1,4 @@
+import { config } from '@/config/env'
 import axios from 'axios'
 import { Effect } from 'effect'
 
@@ -8,7 +9,7 @@ interface SetActiveProgramParams {
 }
 
 export function setActiveProgram({
-  haUrl = 'https://simulator.home-connect.com/api',
+  haUrl = config.homeConnect.apiUrl,
   haId,
   delayStartSeconds = 60,
 }: SetActiveProgramParams) {
