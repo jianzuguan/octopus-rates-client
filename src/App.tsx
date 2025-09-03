@@ -4,14 +4,15 @@ import { TokenPage } from '@/components/TokenPage'
 import { ElecRate } from '@/types/ElecRate'
 import { getRates } from '@/utils/getRates'
 import { useEffect, useState } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { useSwipeable } from 'react-swipeable'
 import './App.css'
-import { DishWasherPage } from './components/DishWasherPage'
+import { DishWasherPage } from './components/DishwasherPage'
 
 function App() {
-  const [activeTab, setActiveTab] = useState<'calculation' | 'rates' | 'dishwasher' | 'token'>(
-    'rates'
-  )
+  const [activeTab, setActiveTab] = useState<
+    'calculation' | 'rates' | 'dishwasher' | 'token'
+  >('rates')
 
   const [rates, setRates] = useState<ElecRate[]>([])
 
@@ -19,12 +20,11 @@ function App() {
     // Check for Home Connect authorization code in URL parameters
     const urlParams = new URLSearchParams(window.location.search)
     const authCode = urlParams.get('code')
-    
+
     if (authCode) {
       // Store the authorization code in localStorage
       localStorage.setItem('homeConnectAuthCode', authCode)
-      console.log('Home Connect authorization code stored:', authCode)
-      
+
       // Clean up the URL by removing the code parameter
       const url = new URL(window.location.href)
       url.searchParams.delete('code')
@@ -80,7 +80,10 @@ function App() {
         >
           <CalculationPage rates={rates} />
           <RatesPage rates={rates} />
-          <DishWasherPage rates={rates} />
+          <ErrorBoundary fallback={<p>Something went wrong</p>}>
+            <DishWasherPage rates={rates} />
+          </ErrorBoundary>
+
           <TokenPage />
         </div>
       </div>

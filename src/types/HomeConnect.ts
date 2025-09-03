@@ -19,3 +19,52 @@ export interface HomeConnectOAuthTokenResponse {
   scope: string
 }
 
+export interface HomeConnectAppliance {
+  name: string
+  brand: string
+  vib: string
+  connected: boolean
+  type: string
+  enumber: string
+  haId: string
+}
+
+export interface GetHomeConnectApplianceResponse {
+  data: {
+    homeappliances: HomeConnectAppliance[]
+  }
+}
+
+export interface GetStatusResponse {
+  data: {
+    key: string
+    value: string
+    name?: string
+    displayvalue?: string
+  }
+}
+
+export interface GetProgramOptions {
+  data: {
+    options: {
+      key: string
+      value: string
+      name?: string
+      displayvalue?: string
+    }[] 
+  }
+}
+
+export interface HomeConnectStatusDoor {
+  key: string
+  name?: string
+  value: string
+  displayvalue?: string
+  type?: string
+}
+
+export interface GetHomeConnectStatusDoorResponse {
+  data: {
+    door: HomeConnectStatusDoor
+  }
+}

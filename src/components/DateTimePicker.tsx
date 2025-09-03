@@ -1,12 +1,13 @@
+import { LocalDateTime } from '@js-joda/core'
 import { useEffect, useState } from 'react'
 
 type Props = {
-  value?: Date
-  onChange: (date: Date) => void
+  value?: LocalDateTime
+  onChange: (date: LocalDateTime) => void
   label?: string
   disabled?: boolean
-  min?: Date
-  max?: Date
+  min?: LocalDateTime
+  max?: LocalDateTime
   className?: string
 }
 
@@ -23,13 +24,7 @@ export function DateTimePicker({
 
   useEffect(() => {
     if (value) {
-      // Convert Date to local datetime string for input
-      const year = value.getFullYear()
-      const month = (value.getMonth() + 1).toString().padStart(2, '0')
-      const day = value.getDate().toString().padStart(2, '0')
-      const hours = value.getHours().toString().padStart(2, '0')
-      const minutes = value.getMinutes().toString().padStart(2, '0')
-      setLocalDateTime(`${year}-${month}-${day}T${hours}:${minutes}`)
+      setLocalDateTime(value.toString())
     }
   }, [value])
 
@@ -39,21 +34,14 @@ export function DateTimePicker({
 
     if (dateTimeValue) {
       // Convert the local datetime string to Date object
-      const date = new Date(dateTimeValue)
+      const date = LocalDateTime.parse(dateTimeValue)
       onChange(date)
     }
   }
 
-  const formatMinMax = (date?: Date): string | undefined => {
+  const formatMinMax = (date?: LocalDateTime): string | undefined => {
     if (!date) return undefined
-    
-    const year = date.getFullYear()
-    const month = (date.getMonth() + 1).toString().padStart(2, '0')
-    const day = date.getDate().toString().padStart(2, '0')
-    const hours = date.getHours().toString().padStart(2, '0')
-    const minutes = date.getMinutes().toString().padStart(2, '0')
-    
-    return `${year}-${month}-${day}T${hours}:${minutes}`
+    return date.toString()
   }
 
   return (
