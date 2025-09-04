@@ -4,10 +4,9 @@ import {
   getDishwasherActiveProgram,
   getDishWasherDoorState,
   getDishwasherOperationState,
-  getDishwasherSelectetdProgram,
   getHomeConnectOAuthToken,
   setDishwasherActiveProgram,
-  setDishwasherPowerOn,
+  setDishwasherPowerOn
 } from '@/utils/home-connet'
 import { ChronoUnit, LocalDateTime } from '@js-joda/core'
 import { Exit } from 'effect'
@@ -48,12 +47,6 @@ export function HomeConnect({ cheapestStartLocalDateTime }: Props) {
     Exit.match(operationStateExit, {
       onSuccess: ({ value, displayvalue }) =>
         setOperationState(displayvalue ?? value),
-      onFailure: (error) => console.error(error),
-    })
-
-    const selectedProgramExit = await getDishwasherSelectetdProgram()
-    Exit.match(selectedProgramExit, {
-      onSuccess: ({ name }) => console.log(`Selected Program: ${name}`),
       onFailure: (error) => console.error(error),
     })
 
