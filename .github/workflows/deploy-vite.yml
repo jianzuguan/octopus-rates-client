@@ -40,6 +40,8 @@ jobs:
         run: yarn install
       - name: Build
         run: yarn build
+        env:
+          NODE_ENV: production
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact

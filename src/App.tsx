@@ -4,17 +4,33 @@ import { TokenPage } from '@/components/TokenPage'
 import { ElecRate } from '@/types/ElecRate'
 import { getRates } from '@/utils/getRates'
 import { useEffect, useState } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { useSwipeable } from 'react-swipeable'
 import './App.css'
+import { DishWasherPage } from './components/DishwasherPage'
 
 function App() {
-  const [activeTab, setActiveTab] = useState<'calculation' | 'rates' | 'token'>(
-    'rates'
-  )
+  const [activeTab, setActiveTab] = useState<
+    'calculation' | 'rates' | 'dishwasher' | 'token'
+  >('rates')
 
   const [rates, setRates] = useState<ElecRate[]>([])
 
   useEffect(() => {
+    // Check for Home Connect authorization code in URL parameters
+    const urlParams = new URLSearchParams(window.location.search)
+    const authCode = urlParams.get('code')
+
+    if (authCode) {
+      // Store the authorization code in localStorage
+      localStorage.setItem('homeConnectAuthCode', authCode)
+
+      // Clean up the URL by removing the code parameter
+      const url = new URL(window.location.href)
+      url.searchParams.delete('code')
+      window.history.replaceState({}, '', url.toString())
+    }
+
     const updateRates = async () => {
       const updatedRates = await getRates()
       setRates(updatedRates.results)
@@ -24,7 +40,7 @@ function App() {
   }, [])
 
   const handleSwipe = (direction: 'left' | 'right') => {
-    const tabs = ['rates', 'calculation', 'token'] as const
+    const tabs = ['rates', 'calculation', 'dishwasher', 'token'] as const
     const currentIndex = tabs.indexOf(activeTab)
     if (direction === 'left' && currentIndex < tabs.length - 1) {
       setActiveTab(tabs[currentIndex + 1])
@@ -52,6 +68,7 @@ function App() {
         >
           {activeTab === 'calculation' && <CalculationPage rates={rates} />}
           {activeTab === 'rates' && <RatesPage rates={rates} />}
+          {activeTab === 'dishwasher' && <DishWasherPage rates={rates} />}
           {activeTab === 'token' && <TokenPage />}
         </div>
 
@@ -63,6 +80,10 @@ function App() {
         >
           <CalculationPage rates={rates} />
           <RatesPage rates={rates} />
+          <ErrorBoundary fallback={<p>Something went wrong</p>}>
+            <DishWasherPage rates={rates} />
+          </ErrorBoundary>
+
           <TokenPage />
         </div>
       </div>
@@ -88,6 +109,12 @@ function App() {
           onClick={() => setActiveTab('calculation')}
         >
           Calculation
+        </button>
+        <button
+          className={`p-2 ${activeTab === 'dishwasher' ? 'font-bold border-t-2 border-blue-500' : ''}`}
+          onClick={() => setActiveTab('dishwasher')}
+        >
+          Dishwasher
         </button>
         <button
           className={`p-2 ${activeTab === 'token' ? 'font-bold border-t-2 border-blue-500' : ''}`}

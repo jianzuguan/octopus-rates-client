@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prod": "vite --mode production",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "vitest",
@@ -14,9 +15,11 @@
   "dependencies": {
     "@js-joda/core": "^5.6.5",
     "@js-joda/timezone": "^2.22.0",
+    "axios": "^1.11.0",
     "effect": "^3.10.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-error-boundary": "^6.0.0",
     "react-swipeable": "^7.0.2"
   },
   "devDependencies": {
