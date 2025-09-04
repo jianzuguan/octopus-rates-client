@@ -44,14 +44,27 @@ export interface GetStatusResponse {
   }
 }
 
-export interface GetProgramOptions {
+export interface HomeConnectProgram {
+  key: string
+  name?: string
+  options?: GetProgramOption[]
+}
+
+export interface GetProgramResponse {
+  data: HomeConnectProgram
+}
+
+export interface GetProgramOption {
+  key: string
+  value: string
+  unit?: string
+  name?: string
+  displayvalue?: string
+}
+
+export interface GetProgramOptionsResponse {
   data: {
-    options: {
-      key: string
-      value: string
-      name?: string
-      displayvalue?: string
-    }[] 
+    options: GetProgramOption[]
   }
 }
 
@@ -64,7 +77,5 @@ export interface HomeConnectStatusDoor {
 }
 
 export interface GetHomeConnectStatusDoorResponse {
-  data: {
-    door: HomeConnectStatusDoor
-  }
+  data: HomeConnectStatusDoor
 }

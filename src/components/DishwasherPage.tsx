@@ -1,20 +1,10 @@
 import { ElecRate } from '@/types/ElecRate'
 import { calculateUsagePrice, Result } from '@/utils/calculateUsagePrice'
-import {
-  getClientIdAndNavigate,
-  getDishwasherAvailablePrograms,
-  getDishwasherOperationState,
-  getDishwasherProgramOptions,
-  getHomeConnectOAuthToken,
-  setDishwasherActiveProgram,
-  setDishwasherDelayStart,
-  setDishwasherPowerOn,
-  setDishwasherProgram,
-} from '@/utils/home-connet'
 import { ChronoUnit, LocalDateTime, ZonedDateTime, ZoneId } from '@js-joda/core'
 import { useEffect, useState } from 'react'
 import { CalculationIo } from './CalculationIo'
 import { DateTimePicker } from './DateTimePicker'
+import { HomeConnect } from './HoneConnect'
 
 type Props = {
   rates: ElecRate[]
@@ -31,22 +21,6 @@ export function DishWasherPage({ rates }: Props) {
   const [cheapestStartLocalDateTime, setCheapestStartLocalDateTime] =
     useState<LocalDateTime>()
 
-  const [isConnecting, setIsConnecting] = useState(false)
-
-  useEffect(() => {
-    // Check for Home Connect authorization code in URL parameters
-    const urlParams = new URLSearchParams(window.location.search)
-    const authCode = urlParams.get('code')
-
-    if (authCode) {
-      getHomeConnectOAuthToken(authCode)
-
-      // Clean up the URL by removing the code parameter
-      const url = new URL(window.location.href)
-      url.searchParams.delete('code')
-      window.history.replaceState({}, '', url.toString())
-    }
-  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -142,77 +116,7 @@ export function DishWasherPage({ rates }: Props) {
         </h3>
       </div>
 
-      <button
-        onClick={getClientIdAndNavigate}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-      >
-        Request Access Token
-      </button>
-
-      <button
-        onClick={getDishwasherOperationState}
-        disabled={isConnecting}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-      >
-        Get Dishwasher Operation State
-      </button>
-
-      <button
-        onClick={setDishwasherPowerOn}
-        disabled={isConnecting}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-      >
-        Turn Dishwasher On
-      </button>
-
-      <button
-        onClick={getDishwasherAvailablePrograms}
-        disabled={isConnecting}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-      >
-        Get Dishwasher Available Programs
-      </button>
-
-      <button
-        onClick={setDishwasherProgram}
-        disabled={isConnecting}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-      >
-        Set Dishwasher Program
-      </button>
-
-      <button
-        onClick={getDishwasherProgramOptions}
-        disabled={isConnecting}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-      >
-        Get Dishwasher Program Options
-      </button>
-
-      <button
-        onClick={setDishwasherDelayStart}
-        disabled={isConnecting}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-      >
-        Set Dishwasher Delay Start
-      </button>
-
-      <button
-        onClick={() =>
-          setDishwasherActiveProgram(
-            cheapestStartLocalDateTime !== undefined
-              ? LocalDateTime.now().until(
-                  cheapestStartLocalDateTime,
-                  ChronoUnit.SECONDS
-                )
-              : 60 * 60 * 12
-          )
-        }
-        disabled={isConnecting}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-      >
-        Delay start program Eco 50
-      </button>
+      <HomeConnect cheapestStartLocalDateTime={cheapestStartLocalDateTime} />
     </div>
   )
 }
