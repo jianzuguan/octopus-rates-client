@@ -2,6 +2,7 @@ import { config } from '@/config/env'
 import {
   HomeConnectCredentials,
   HomeConnectOAuthTokenResponse,
+  HomeConnectRefreshAccessTokenParams,
 } from '@/types/HomeConnect'
 import axios from 'axios'
 import { Effect } from 'effect'
@@ -59,6 +60,32 @@ export function requestAccessToken(params: HomeConnectCredentials) {
   )
 }
 
+export function refreshAccessToken({
+  clientId,
+  clientSecret,
+  refreshToken,
+}: HomeConnectRefreshAccessTokenParams) {
+  return Effect.tryPromise(() =>
+    axios
+      .post<HomeConnectOAuthTokenResponse>(
+        `${config.homeConnect.oauthUrl}/token`,
+        {
+          grant_type: 'refresh_token',
+          refresh_token: refreshToken,
+          client_id: clientId,
+          client_secret: clientSecret,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Accept: 'application/json',
+          },
+        }
+      )
+      .then((response) => response.data)
+  )
+}
+
 export function storeAccessToken(token: HomeConnectOAuthTokenResponse) {
   console.log(`Storing token: ${JSON.stringify(token)}`)
   localStorage.setItem('accessToken', token.access_token)
@@ -74,11 +101,30 @@ export function retrieveClientCredentialsFromStorage(
   const clientId = localStorage.getItem('clientId')
   const clientSecret = localStorage.getItem('clientSecret')
 
-  if (clientId !== null && clientSecret !== null && authCode !== null) {
+  if (clientId !== null && clientSecret !== null) {
     return Effect.succeed({
       clientId,
       clientSecret,
       authCode,
+    })
+  } else {
+    return Effect.fail(null)
+  }
+}
+
+export function retrieveRefreshCredentialsFromStorage(): Effect.Effect<
+  HomeConnectRefreshAccessTokenParams,
+  null
+> {
+  const clientId = localStorage.getItem('clientId')
+  const clientSecret = localStorage.getItem('clientSecret')
+  const refreshToken = localStorage.getItem('refreshToken')
+
+  if (clientId !== null && clientSecret !== null && refreshToken !== null) {
+    return Effect.succeed({
+      clientId,
+      clientSecret,
+      refreshToken,
     })
   } else {
     return Effect.fail(null)

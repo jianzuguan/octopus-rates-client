@@ -5,8 +5,9 @@ import {
   getDishWasherDoorState,
   getDishwasherOperationState,
   getHomeConnectOAuthToken,
+  refreshHomeConnectAccessToken,
   setDishwasherActiveProgram,
-  setDishwasherPowerOn
+  setDishwasherPowerOn,
 } from '@/utils/home-connet'
 import { ChronoUnit, LocalDateTime } from '@js-joda/core'
 import { Exit } from 'effect'
@@ -34,6 +35,14 @@ export function HomeConnect({ cheapestStartLocalDateTime }: Props) {
       url.searchParams.delete('code')
       window.history.replaceState({}, '', url.toString())
     }
+  }, [])
+
+  useEffect(() => {
+    const refreshToken = async () => {
+      await refreshHomeConnectAccessToken()
+      await handleGetDishwasherStates()
+    }
+    refreshToken()
   }, [])
 
   const handleGetDishwasherStates = async () => {

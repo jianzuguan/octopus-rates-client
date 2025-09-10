@@ -11,6 +11,13 @@ export interface HomeConnectCredentials {
   authCode: string
 }
 
+export type HomeConnectRefreshAccessTokenParams = {
+  clientId: string
+  clientSecret: string
+  refreshToken: string
+}
+
+
 export interface HomeConnectOAuthTokenResponse {
   access_token: string
   refresh_token: string

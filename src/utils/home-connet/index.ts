@@ -1,8 +1,10 @@
 import { Effect, Exit, pipe } from 'effect'
 import {
   navigateToHomeConnectAuth,
+  refreshAccessToken,
   requestAccessToken,
   retrieveClientCredentialsFromStorage,
+  retrieveRefreshCredentialsFromStorage,
   storeAccessToken,
 } from './auth'
 import { getActiveProgram } from './getActiveProgram'
@@ -47,6 +49,16 @@ export async function getHomeConnectOAuthToken(authCode: string) {
   )
 
   return exit
+}
+
+export async function refreshHomeConnectAccessToken() {
+  return Effect.runPromiseExit(
+    pipe(
+      retrieveRefreshCredentialsFromStorage(),
+      Effect.flatMap(refreshAccessToken),
+      Effect.map(storeAccessToken)
+    )
+  )
 }
 
 export async function getDishwasherOperationState() {
